@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bind & call & apply</title>
+</head>
+<body>
+
+</body>
+<script>
+    // function list(a,b,c){
+    //
+    //     let args = [a,b,c];
+    //     // console.log(arguments);
+    //     console.log(Array.prototype.slice.call(args));
+    //      // 让类数组arguments拥有数组的方法slice，这个函数实现了简单把类数组转换成数组
+    //     return Array.prototype.slice.call(args);
+    // }
+    //
+    // list(1,2,3);//[1,2,3]
+    // //给list绑定一个预设参数4
+    // let list1 = list.bind(undefined,[4,5]);
+    // // console.log(list1());//[4]
+    // console.log(list1(1,2,3));//list1(1,2,3)
+    // list1(1,2,3);//list1(1,2,3)
+    
+    // Function.prototype.bind = function (news) {
+    //
+    // }
+
+
+    const nick = {
+        name:'nick'
+    };
+    const sayName = function() {
+        console.log(this.name);
+        if (arguments.length !== 0) {
+            for (let key in arguments) {
+                console.log(arguments[key]);
+            }
+        }
+    }
+    Function.prototype.newBind = function(){
+        const that = this,	//这个this是原函数对象
+            context = Array.prototype.shift.call( arguments ),  //第一个参数，需要绑定的this的对象
+            args = Array.prototype.slice.call( arguments );     //将剩下的参数转换成数组
+        return function(){
+            return that.apply( context, Array.prototype.concat.call( args, Array.prototype.slice.call( arguments )));
+            //这里的args是预先传的参数
+            //arguments是真正运行时传的参数
+            //合并args跟arguments
+        }
+    }
+    const nickSayName = sayName.newBind(nick,1,2);
+    nickSayName(3,4);
+
+    // const  arr = nickSayName(3,4);
+</script>S
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOM & DOM</title>
+    <style type="text/css">
+
+        #div1{
+            width: 200px;
+            height: 200px;
+            background-color: #20B2AA;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            background-color: #436690;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        #div3{
+            width: 50px;
+            height: 50px;
+            background-color: #4E2E83;
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div>DOM（Document Object Model），是指文档对象模型，是W3C组织推荐的处理可扩展标志语言的标准编程接口。在网页上，组织页面（或文档）的对象被组织在一个树形结构中，用来表示文档中对象的标准模型</div>
+    <div>BOM(Browser Object Model) 是指浏览器对象</div>
+    <div>BOM对象:screen/location/history/navigator/</div>
+
+    <div id="div1">
+        <div id="div2">
+            <div id="div3">3</div>
+        </div>
+    </div>
+
+    <a href="###" onclick="stopHref()">跳转页面</a>
+
+</body>
+
+<script type="text/javascript">
+    var div1 = document.getElementById("div1");
+    var div2 = document.getElementById("div2");
+    var div3 = document.getElementById("div3");
+
+    div1.addEventListener("click",function(e){
+        handleE();
+        console.log("div1触发了click事件");
+    },false);
+
+    div2.addEventListener("click",function(e){
+        handleE();
+        console.log("div2触发了click事件");
+    },false);
+
+    div3.addEventListener("click",function(e){
+        handleE();
+        console.log("div3触发了click事件");
+    },false);
+
+    function handleE(e){
+        var evt = e||window.event;
+        evt.stopPropagation();
+    }
+    function stopHref(e){
+
+        e = e||window.event;
+        if (e.preventDefault) {
+            e.preventDefault(); //IE以外
+        } else {
+            e.returnValue = false; //IE
+        }
+
+        alert("好气呀！");
+
+    }
+
+</script>
+
+</html>

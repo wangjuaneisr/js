@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>防抖 & 节流</title>
+</head>
+<body>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+    <div>1111</div>
+
+</body>
+<script>
+
+
+    /*
+    * 防抖
+    *
+    * */
+
+    let timer = null;
+    function debounce(fn,wait){
+        return function () {
+            let that = this;
+            let args = arguments;
+
+
+
+            timer && clearTimeout(timer);
+
+            timer = setTimeout(()=>{
+
+                console.log(that);
+                console.log(args);
+
+                fn.apply(null,args);
+
+            },wait)
+
+        }
+    }
+
+
+
+
+    window.onscroll = debounce(()=>{
+        console.log(document.body.scrollTop ||document.documentElement.scrollTop)
+    },1000);
+
+
+
+    /*
+    * 节流
+    * 就是指连续触发事件但是在 n 秒中只执行一次函数。节流会稀释函数的执行频率。
+    * fn 函数
+    * wait 延迟执行时间
+    * type 1 后执行, 2 先执行
+    * */
+
+    // let time = (new Date()).getTime(),timer;
+
+    function throttle(fn,wait) {
+
+        // console.log(arguments);
+
+        let start,timer;
+
+        return function loop(){
+            let now = (new Date()).getTime();
+
+            let flag = now - start - wait,//触发条件 是否达到要求的时间间隔
+                that = this,
+                args = arguments;
+
+            if(!start){
+                start = now;
+            }
+            if(timer){
+                clearTimeout(timer);
+            }
+            if(flag >= 0){
+                fn.apply(that,args);
+                start = now;
+            }else{
+
+                if(type === 1){
+                    //为了减少setTimeout的影响，可以使用requestAnimationFrame
+                    timer = window.requestAnimationFrame(()=>{
+                        loop.apply(that,args);
+                        window.cancelAnimationFrame(timer);
+                        timer = undefined;
+                    })
+                }else if(type === 2){
+                    //立即执行版本，触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行函数的效果。
+                    timer = setTimeout(()=>{
+                        clearTimeout(timer);
+                        timer = undefined;
+                    },wait);
+
+                    timer && loop.apply(that,args);
+                }
+            }
+        }
+
+
+    }
+
+    window.onscroll = throttle(()=>{
+        console.log("scrollTop",document.body.scrollTop ||document.documentElement.scrollTop)
+    },1000);
+
+
+
+
+
+</script>
+</html>
